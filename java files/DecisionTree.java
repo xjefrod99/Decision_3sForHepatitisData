@@ -39,38 +39,47 @@ public class DecisionTree {
 
 		int n_pos = node.pos.size();
 		int n_neg = node.neg.size();
-		// 1. If all remaining examples at this node have the same label L (Base Case 1
-		// 2. -set this node’s label to L
-		// 3. -set this node as a leaf
-		if (n_pos == 0 || n_neg == 0) {
-			
-			boolean temp = true; 
-			if(n_pos == 0){
-				temp = false; //if no pos examples, then all examples are false and label L becomes false
-			}
+
+		//base case 1
+		if (n_pos == 0 && n_neg != 0) {
+			node.decision = false;
 			node.isLeaf = true;
-			node.decision = temp;
+			return;
 		}
-		// 4. If no more examples at this node (Base Case 2):
-		// 5. -set this node’s label to the majority label of its
-		// parent’s examples
-		// 6. -set this node as a leaf
+
+		else if (n_neg == 0 && n_pos != 0 ){
+			node.decision = true;
+			node.isLeaf = true;
+			return;
+		}
+		
+		
+		//base case 2
 		if (n_pos == 0 && n_neg == 0){
-			//set the label to the majority label of its parent's examples
+			// //set the label to the majority label of its parent's examples
 
 			//find parent, and calc maj label
 			TreeNode par = node.parent;
 			int par_pos = par.pos.size();
 			int par_neg = par.neg.size();
-			if (par_pos >= par_neg){
+			
+			if(node.parent == null){
+				node.decision = false;
+			}
+			else if (par_pos >= par_neg){
 				//node label is true; 
-				node.decision = true;}
+				node.decision = true;
+			}
 			else{
 				//node label is false
-				node.decision = false;}
+				node.decision = false;
+			}
 			node.isLeaf = true;
-
+			return;
 		}
+
+
+
 
 		// 7. If no more features (Base Case 3)
 		if (numFeatures == 0){		
@@ -91,34 +100,53 @@ public class DecisionTree {
 			// 11. pos = node.getPos(); neg = node.getNeg(); // Get the positive and negative examples for this node
 			ArrayList<Example> pos_nodes = node.pos;
 			ArrayList<Example> neg_nodes = node.neg;
-			int split = node.getSplitFeature();
-			node.featureUsed(split); //set to true bc we used it
+			// int split = node.getSplitFeature();
+			// node.featureUsed(split); //set to true bc we used it
 
-			//find next feature to split on; 
-			int decisive_feature = 0; 
-			int best = 0;
-			double max = -1.0;
-			double current_e = (getEntropy(node.pos, node.neg);
-			// 12. Find the next feature to split on, i.e. the feature, f, (what do we set it to) with the most information gain
-			while(decisive_feature != split){
-				//we go through all features up to this node
-				// ** is this how we calculate inf gain? replace split with what? **//
-				if ( current_e - getRemainingEntropy(decisive_feature, node) > max){
-					best = decisive_feature;
-				}
-				decisive_feature++;
-			}
-			// 13. Set this node’s feature as f
-			node.setSplitFeature(best);
+			// //find next feature to split on; 
+			// int decisive_feature = 0; 
+			// int best = 0;
+			// double max = -1.0;
+			// double current_e = (getEntropy(node.pos, node.neg);
+			// // 12. Find the next feature to split on, i.e. the feature, f, (what do we set it to) with the most information gain
+			// while(decisive_feature != split){
+			// 	//we go through all features up to this node
+			// 	// ** is this how we calculate inf gain? replace split with what? **//
+			// 	if ( current_e - getRemainingEntropy(decisive_feature, node) > max){
+			// 		best = decisive_feature;
+			// 	}
+			// 	decisive_feature++;
+			// }
+			// // 13. Set this node’s feature as f
+			// node.setSplitFeature(best);
 
-			// 14. -createSubChildren(node)//each node will have two
-			createChildren(node, numFeatures) ;
-			// subchildren: a true child and a false child
-			train(node.trueChild, best);
+			// // 14. -createSubChildren(node)//each node will have two
+			// createChildren(node, numFeatures) ;
+			// // subchildren: a true child and a false child
+			// train(node.trueChild, best);
 			
-			train(node.falseChild, best);
-			// 15. train(this node’s true child)
-			// 16. train(this node’s false child)
+			// train(node.falseChild, best);
+			// // 15. train(this node’s true child)
+			// // 16. train(this node’s false child)
+			
+			double currEntropy = getEntropy(node.pos.size(), node.neg.size());
+			for(int i=0; i< node.featuresUsed.length; i++){
+				//check see if the feature has already been used
+				if (!node.featureUsed(i)){
+					int temp_splitFeature = i;
+					
+					//calculate the entropy of the feature we'd split node on
+					double featureEntropy = getEntropy() //of current feature 
+
+					//if information gain for the current feature is less than the next feature, 
+					// move to next feature (f = i) until you find bigger information gain/
+					// then setSplitFeature(i)
+					// createChildren 
+					// call train on the next node 
+
+					if(currEntropy  - featureEntropy )
+				}
+			}
 		}
 		
 

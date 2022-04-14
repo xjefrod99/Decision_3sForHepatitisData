@@ -10,7 +10,7 @@ public class TreeNode {
 	ArrayList<Example> neg; //the negative examples at this node
 	boolean decision;
 	
-	private boolean[] featuresUsed; // the features already used prior to this node 
+	public boolean[] featuresUsed; // the features already used prior to this node 
 	private int splitFeature;// the feature that this node will split examples on
 	boolean isLeaf = false; //indicates whether the node is a leaf (set to true during pruning)
 	
