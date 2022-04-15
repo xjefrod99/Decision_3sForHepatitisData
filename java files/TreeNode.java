@@ -1,5 +1,6 @@
 // represents a node of the decision tree 
 
+import java.lang.reflect.Array;
 import java.util.*;
 public class TreeNode {
 	TreeNode parent; //parent of this node
@@ -48,6 +49,11 @@ public class TreeNode {
 	 */
 	public boolean featureUsed(int i){
 		return featuresUsed[i];
+	}
+
+	//returns featuresUsed array
+	public boolean[] getFeaturesUsed(){
+		return this.featuresUsed;
 	}
 	
 	/**

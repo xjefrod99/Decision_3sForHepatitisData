@@ -59,7 +59,7 @@ public class DecisionTree {
 			//set the label to the majority label of its parent's examples
 
 			//find parent, and calc maj label
-			TreeNode par = node.parent;
+			TreeNode par = node.parent; //assuming there's always a parent node
 			int par_pos = par.pos.size();
 			int par_neg = par.neg.size();
 			if (par_pos >= par_neg){
@@ -76,14 +76,10 @@ public class DecisionTree {
 		if (numFeatures == 0){		
 			// 8. -set this node’s label to the majority label of this node’s examples
 			// 9. -set this node as a leaf
-			if (n_pos >= n_neg){
-				//node label is true;  do we set boolean decision in the TreeNode class
+			if (n_pos >= n_neg)
 				node.decision = true;
-			}
-			else{
-				//node label is false
+			else 
 				node.decision = false;
-			}
 			node.isLeaf = true;
 		}
 
@@ -91,28 +87,37 @@ public class DecisionTree {
 			// 11. pos = node.getPos(); neg = node.getNeg(); // Get the positive and negative examples for this node
 			ArrayList<Example> pos_nodes = node.pos;
 			ArrayList<Example> neg_nodes = node.neg;
-			int split = node.getSplitFeature();
-			node.featureUsed(split); //set to true bc we used it
+
+			//node.setSplitFeature(numFeatures);//set to true bc we used it ??? and line 138
 
 			//find next feature to split on; 
-			int decisive_feature = 0; 
 			int best = 0;
-			double max = -1.0;
-			double current_e = (getEntropy(node.pos, node.neg);
-			// 12. Find the next feature to split on, i.e. the feature, f, (what do we set it to) with the most information gain
-			while(decisive_feature != split){
-				//we go through all features up to this node
-				// ** is this how we calculate inf gain? replace split with what? **//
-				if ( current_e - getRemainingEntropy(decisive_feature, node) > max){
-					best = decisive_feature;
+			double inf_gain = -1.0;
+			double current_e = this.getEntropy(node.pos.size(), node.neg.size());
+			// 12. Find the next feature to split on, i.e. the feature, f, with the most information gain
+
+			
+			pos_nodes.addAll(neg_nodes) ; //adding to find next features
+
+			boolean[] copy_featU = node.getFeaturesUsed();
+
+			for(int i =0; i < copy_featU.length; i++){
+				// only check for features that havent been used 
+				//find best, to know what feature to put at this node.
+
+				if(copy_featU[i] == false){ 
+					//if feature hasn't been use, calculate information gain if this feature was chosen
+					if ( current_e - getRemainingEntropy( i, node) > inf_gain){
+						best = i;
+					}
 				}
-				decisive_feature++;
 			}
+
 			// 13. Set this node’s feature as f
 			node.setSplitFeature(best);
 
 			// 14. -createSubChildren(node)//each node will have two
-			createChildren(node, numFeatures) ;
+			createChildren(node, best) ;
 			// subchildren: a true child and a false child
 			train(node.trueChild, best);
 			
@@ -139,7 +144,16 @@ public class DecisionTree {
 
 		// paritition examples into positive and negative ones
 
+		//go thru Node.pos and Node.neg, and create a treeNode object and 
+		//if getFeatureValue( f-i ) is true, add to TruePositive bc it is a true positive
+		
+		TreeNode(TreeNode par, ArrayList<Example> p, ArrayList<Example> n, int numFeatures)
 		//then set node.TrueChild = trueChild_
+		for(int i = 0; i < node.pos.size(); i++){
+
+			if (node.pos.get(i).getFeatureValue(numFeatures) )
+				trueChild.add(new TreeNode(node, node.pos.get(i), neg ));
+		}
 
 	}
 
@@ -197,9 +211,12 @@ public class DecisionTree {
 	 * @return true if e is predicted to be positive, false otherwise
 	 */
 	public boolean classify(Example e) {
-
-
 		// for running without error reasons
+
+		//
+
+		e.getFeatureValue(feature)
+		//feature stored in boolean , the index in the array
 		return false;
 	}
 
