@@ -138,22 +138,47 @@ public class DecisionTree {
 	 */
 	private void createChildren(TreeNode node, int numFeatures) {
 
+		int feature = node.getSplitFeature();
 		// initialize empty positive and negative lists
-		ArrayList<TreeNode> trueChild_ = new ArrayList<TreeNode>();
-		ArrayList<TreeNode> falseChild_ = new ArrayList<TreeNode>();
+		ArrayList<Example> trueChildPos = new ArrayList<Example>();
+		ArrayList<Example> trueChildNeg = new ArrayList<Example>();
+		ArrayList<Example> falseChildPos = new ArrayList<Example>();
+		ArrayList<Example> falseChildNeg = new ArrayList<Example>();
 
 		// paritition examples into positive and negative ones
 
 		//go thru Node.pos and Node.neg, and create a treeNode object and 
 		//if getFeatureValue( f-i ) is true, add to TruePositive bc it is a true positive
 		
-		TreeNode(TreeNode par, ArrayList<Example> p, ArrayList<Example> n, int numFeatures)
-		//then set node.TrueChild = trueChild_
-		for(int i = 0; i < node.pos.size(); i++){
+		// TreeNode(TreeNode par, ArrayList<Example> p, ArrayList<Example> n, int numFeatures)
+		// //then set node.TrueChild = trueChild_
+		// for(int i = 0; i < node.pos.size(); i++){
 
-			if (node.pos.get(i).getFeatureValue(numFeatures) )
-				trueChild.add(new TreeNode(node, node.pos.get(i), neg ));
+		// 	if (node.pos.get(i).getFeatureValue(numFeatures) )
+		// 		trueChild.add(new TreeNode(node, node.pos.get(i), neg ));
+		// }
+		
+		for(Example e: node.pos){
+			if(e.getFeatureValue(feature) == true){
+				trueChildPos.add(feature);
+			}
+			else{
+				falseChildPos.add(feature);
+			}
 		}
+		for(Example e: node.neg){
+			if(e.getFeatureValue(feature == true)){
+				trueChildNeg.add(feature);
+			}
+			else{
+				falseChildNeg.add(feature);
+			}
+		}
+
+		
+
+
+
 
 	}
 
